@@ -305,5 +305,10 @@ public class Manager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
     }
 
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
 
 }
