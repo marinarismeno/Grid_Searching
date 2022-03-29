@@ -7,7 +7,6 @@ using TMPro;
 public class Manager : MonoBehaviour
 {
     public GameObject mainMenu;
-    //public 
     public Canvas GridCanvas;
 
     public GameObject playMenu;
@@ -30,16 +29,9 @@ public class Manager : MonoBehaviour
     private Vector2Int previousLocation;
     private Vector2Int step;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ClearGridPanel();
-        }
-    }
     private void Start() 
     {
-        totalCost.text = "0"; // reset the totla cost field
+        totalCost.text = "0"; // reset the total cost field
         ShowMenuPanel(true);
         currentLocation = new Vector2Int(0, 0); //hero's start position
     }
@@ -56,7 +48,6 @@ public class Manager : MonoBehaviour
         columnsNo = int.Parse(columns_if.text);
         if (rowsNo < 2 || columnsNo < 2) // set dimention restrictions
         {
-            //Debug.Log("wrong dimentions");
             StartCoroutine(ShowFeedback("The minimum grid size is 2x2"));
             return;
         }
@@ -65,7 +56,7 @@ public class Manager : MonoBehaviour
         CreateGrid();
 
         PlaceSpriteInGrid(heroSprite, currentLocation); // initialize the hero location
-        //StartCoroutine(ShowFeedback("Let us begin!"));        
+       
         StartCoroutine(FindBestRoute());
     }
 
@@ -118,7 +109,6 @@ public class Manager : MonoBehaviour
                 else
                     columnitem.transform.SetParent(rowitem.transform); // use from the pool
 
-                //Debug.Log("we are at column: " + i);
                 if(i==0) // at the first element of the column
                     columnitem.transform.GetChild(0) /* the text */.GetComponent<TMP_Text>().text = j.ToString(); // show the column number at the top
                 else
@@ -191,7 +181,6 @@ public class Manager : MonoBehaviour
         yield return new WaitForSeconds(3);
         TargetLocator.Direction direction;
         Vector2Int newLocation = new Vector2Int();
-        //Vector2Int tempLocation;
         int step_1 = 1;
         bool found = false;
 
@@ -241,7 +230,6 @@ public class Manager : MonoBehaviour
 
             for (int i = 0; i < step_1; i++) // moving the sprite step by step
             {
-                //Debug.Log("moving hero");
                 PlaceSpriteInGrid(null, currentLocation); // remove from former location
                 PlaceSpriteInGrid(heroSprite, newLocation); // set to new location
             }
@@ -257,17 +245,15 @@ public class Manager : MonoBehaviour
 
     private Vector2Int CalculateStep(Vector2Int step ,TargetLocator.Direction direction)
     {
-        if (direction == TargetLocator.Direction.Down || /*direction == TargetLocator.Direction.DownLeft ||*/
+        if (direction == TargetLocator.Direction.Down || 
             direction == TargetLocator.Direction.DownRight || direction == TargetLocator.Direction.Right)
         { // +
             step.x = (int) Mathf.Floor((rowsNo-1 - currentLocation.x) / 2);
             step.y = (int) Mathf.Floor((columnsNo-1 - currentLocation.y) / 2);
         }
-        else if (direction == TargetLocator.Direction.Up || direction == TargetLocator.Direction.UpLeft ||
-           /*direction == TargetLocator.Direction.UpRight ||*/ direction == TargetLocator.Direction.Left)
-        { // -
-            //step.x = (int) Mathf.Floor(currentLocation.x / 2);
-            //step.y =(int) Mathf.Floor(currentLocation.y / 2);
+        else if (direction == TargetLocator.Direction.Up || direction == TargetLocator.Direction.UpLeft 
+            || direction == TargetLocator.Direction.Left)
+        { 
             step.x = (int)Mathf.Floor((currentLocation.x - previousLocation.x) / 2);
             step.y = (int)Mathf.Floor((currentLocation.y - previousLocation.y) / 2);
         }
@@ -287,7 +273,6 @@ public class Manager : MonoBehaviour
         if (step.y == 0)
             step.y = 1;
 
-        //int totalMoves = TargetLocator.Cost;
         return step;
     }
 
